@@ -1,0 +1,145 @@
+@import "tailwindcss";
+
+/*
+  OncoCare BMT theme · shadcn/ui CSS variables
+  --primary and --brand-accent are REPLACED at runtime with the hospital's
+  white-label colours (see app/layout.tsx). Everything else follows them.
+*/
+:root {
+  --radius: 0.75rem;
+  --background: #ffffff;
+  --foreground: #1e293b;
+  --card: #ffffff;
+  --card-foreground: #1e293b;
+  --popover: #ffffff;
+  --popover-foreground: #1e293b;
+  --primary: #0f4c81; /* navy */
+  --primary-foreground: #ffffff;
+  --brand-accent: #1b7a7e; /* teal */
+  --brand-accent-foreground: #ffffff;
+  --secondary: #f0f6fa;
+  --secondary-foreground: #0f4c81;
+  --muted: #f0f6fa;
+  --muted-foreground: #475569;
+  --accent: #f0f6fa;
+  --accent-foreground: #0f4c81;
+  --destructive: #dc2626;
+  --border: #d8e3ec;
+  --input: #c9d6e2;
+  --ring: #1b7a7e;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-brand: var(--brand-accent);
+  --color-brand-foreground: var(--brand-accent-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  /* Landing-page palette names, mapped to the same white-label variables */
+  --color-navy: var(--primary);
+  --color-navy-deep: color-mix(in oklab, var(--primary) 78%, black);
+  --color-teal: var(--brand-accent);
+  --color-teal-dark: color-mix(in oklab, var(--brand-accent) 80%, black);
+  --color-teal-soft: color-mix(in oklab, var(--brand-accent) 12%, white);
+  --color-ice: #f0f6fa;
+  --color-crimson: #dc2626;
+  --color-ink: #1e293b;
+  --color-line: var(--border);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-jakarta), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+  }
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* ───────── Landing page motion (all of it respects reduced motion + the Pause button) ───────── */
+@keyframes oc-fade-up { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@keyframes oc-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes oc-drift { 0%, 100% { transform: translate(0, 0); } 50% { transform: translate(var(--dx, 8px), var(--dy, -6px)); } }
+@keyframes oc-emerge {
+  0%, 18% { opacity: 0; transform: translate(0, 0) scale(0.4); }
+  45%, 85% { opacity: 1; transform: translate(var(--ex, 30px), var(--ey, 0px)) scale(1); }
+  100% { opacity: 0; transform: translate(calc(var(--ex, 30px) * 1.2), calc(var(--ey, 0px) * 1.2)) scale(1); }
+}
+@keyframes oc-pulse-ring { 0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--brand-accent) 55%, transparent); } 70%, 100% { box-shadow: 0 0 0 12px transparent; } }
+@keyframes oc-orbit { to { transform: rotate(360deg); } }
+@keyframes oc-donate { 0%, 10% { transform: translateX(0); opacity: 0; } 25% { opacity: 1; } 80% { opacity: 1; } 100% { transform: translateX(var(--dist, 120px)); opacity: 0; } }
+@keyframes oc-tick { from { stroke-dashoffset: 24; } to { stroke-dashoffset: 0; } }
+
+.oc-fade-up { animation: oc-fade-up 0.8s ease both; animation-delay: var(--d, 0ms); }
+.oc-float { animation: oc-float 6s ease-in-out infinite; }
+.oc-drift { animation: oc-drift var(--t, 9s) ease-in-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: center; }
+.oc-emerge { animation: oc-emerge 10s ease-in-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: center; }
+.oc-pulse { animation: oc-pulse-ring 1.8s ease-out infinite; }
+.oc-orbit { animation: oc-orbit 7s linear infinite; transform-box: view-box; transform-origin: var(--ox, 50%) var(--oy, 50%); }
+.oc-donate { animation: oc-donate 4.5s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+.oc-tick { stroke-dasharray: 24; animation: oc-tick 0.8s ease both; animation-delay: var(--d, 0s); }
+
+.oc-reveal { opacity: 0; transform: translateY(16px); transition: opacity 0.7s ease, transform 0.7s ease; transition-delay: var(--d, 0ms); }
+.oc-reveal.is-in { opacity: 1; transform: none; }
+.oc-draw-x { transform-origin: left center; transform: scaleX(0); transition: transform 1.6s ease; }
+.oc-draw-y { transform-origin: center top; transform: scaleY(0); transition: transform 1.6s ease; }
+.is-in .oc-draw-x { transform: scaleX(1); }
+.is-in .oc-draw-y { transform: scaleY(1); }
+
+html[data-motion="paused"] .oc-anim,
+html[data-motion="paused"] .oc-anim * { animation-play-state: paused !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .oc-reveal { opacity: 1 !important; transform: none !important; }
+  .oc-draw-x, .oc-draw-y { transform: none !important; }
+  .oc-fade-up { opacity: 1 !important; }
+}
+
+/* Printing (discharge instructions): show only the marked area. */
+@media print {
+  body * { visibility: hidden; }
+  .print-area, .print-area * { visibility: visible; }
+  .print-area { position: absolute; left: 0; top: 0; width: 100%; }
+}

@@ -1,0 +1,15 @@
+node_modules
+.next
+out
+next-env.d.ts
+*.tsbuildinfo
+# Secrets: never commit these
+.env
+.env.local
+.env*.local
+.vercel
+seed-clinicians-credentials.csv
+seed-clinicians-emails.txt
+seed-clinicians-passwords.txt
+seed-patients-credentials.csv
+seed-admins-credentials.csv
